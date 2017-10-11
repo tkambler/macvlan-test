@@ -8,9 +8,6 @@ services:
     image: network-test-app1
     # define networks
     networks:
-       # use the default network driver for inter-container links
-      private:
-
       # define a VLAN network (eth1 is trunked to multiple VLANs)
       vlan87:
         driver: macvlan
@@ -20,4 +17,13 @@ services:
     environment:
       NODE_ENV: "development"
 
-
+networks:
+  vlan87:
+    driver: macvlan
+    driver_opts:
+      parent: eth1.87
+    ipam:
+      config:
+        - subnet: 10.25.87.0/24
+          gateway: 10.25.87.1
+          ip_range: 10.25.87.32/28 # IP from this pool are assigned automatically
