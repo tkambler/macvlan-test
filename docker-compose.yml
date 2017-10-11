@@ -7,7 +7,8 @@ services:
       context: ./app1
     image: network-test-app1
     networks:
-      - vlan87
+      vlan10:
+        ipv4_address: 192.168.1.73
     restart: unless-stopped
     volumes:
       - ./app1:/opt/app
@@ -15,12 +16,10 @@ services:
       NODE_ENV: "development"
 
 networks:
-  vlan87:
+  vlan10:
     driver: macvlan
     driver_opts:
-      parent: eth1.87
+      parent: eth0.10
     ipam:
       config:
-        - subnet: 10.25.87.0/24
-          gateway: 10.25.87.1
-          ip_range: 10.25.87.32/28 # IP from this pool are assigned automatically
+        - subnet: 192.168.1.0/24
