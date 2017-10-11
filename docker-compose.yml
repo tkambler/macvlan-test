@@ -1,0 +1,23 @@
+version: '3.3'
+
+services:
+
+  app1:
+    build:
+      context: ./app1
+    image: network-test-app1
+    # define networks
+    networks:
+       # use the default network driver for inter-container links
+      private:
+
+      # define a VLAN network (eth1 is trunked to multiple VLANs)
+      vlan87:
+        driver: macvlan
+    restart: unless-stopped
+    volumes:
+      - ./app1:/opt/app
+    environment:
+      NODE_ENV: "development"
+
+
